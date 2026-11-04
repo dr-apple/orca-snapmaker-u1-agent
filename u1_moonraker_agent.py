@@ -6,7 +6,7 @@
 # name = "Snapmaker U1 Agent"
 # description = "LAN printing for the Snapmaker U1 via Moonraker, with print options (timelapse, flow calibration, bed leveling), filament slot sync, printer status, camera and a U1 device tab."
 # author = "dr-apple"
-# version = "0.6.0"
+# version = "0.6.1"
 # ///
 """Printer agent for the Snapmaker U1 (OrcaSlicer 2.5 printer-agent API).
 
@@ -48,7 +48,7 @@ pa = orca.printer_agent
 
 AGENT_ID = "u1_moonraker"
 AGENT_NAME = "Snapmaker U1 (Moonraker)"
-AGENT_VERSION = "0.6.0"
+AGENT_VERSION = "0.6.1"
 # model_id of the Snapmaker U1 in Orca's Snapmaker vendor profile
 MODEL_ID = "797581801"
 DEFAULT_PORT = 7125
@@ -588,6 +588,16 @@ def _vendor_matches(tray_vendor, preset_vendor):
     return bool(a) and bool(b) and (a <= b or b <= a)
 
 
+def _name_starts_with(name, vendor):
+    """Whether a preset name starts with the vendor's words ("Panchroma PLA Matte" / "Panchroma").
+
+    Product lines are filed under their parent company: Panchroma, PolyLite and PolyTerra presets
+    have filament_vendor "Polymaker", so a spool tagged with the line reaches them by name.
+    """
+    words = re.findall(r"[A-Z0-9+]+", (vendor or "").upper())
+    return bool(words) and re.findall(r"[A-Z0-9+]+", name.upper())[:len(words)] == words
+
+
 def filament_catalog():
     """Visible filament presets, as dicts with name, vendor, type, words, system, compatible and rgb.
 
@@ -620,7 +630,8 @@ def filament_catalog():
 def match_slot_preset(tray, catalog):
     """Name of the compatible preset that fits a slot best, or "" when no preset has its type.
 
-    The spool's vendor first, then Generic, then any other vendor; within that a name carrying
+    The spool's vendor first (by filament_vendor or by a name starting with it), then Generic,
+    then any other vendor; within that a name carrying
     the spool's sub type (SnapSpeed, Matte, HF, ...), then the plainest name (Snapmaker PLA
     before Snapmaker PLA Glow), a system preset, one made for a printer ("... @U1"), and finally
     the closest colour.
@@ -631,9 +642,9 @@ def match_slot_preset(tray, catalog):
     target = _rgb(tray["color"])
 
     def rank(preset):
-        if _vendor_matches(tray["vendor"], preset["vendor"]):
+        if _vendor_matches(tray["vendor"], preset["vendor"]) or _name_starts_with(preset["name"], tray["vendor"]):
             tier = 0
-        elif preset["vendor"].strip().upper() == "GENERIC":
+        elif preset["vendor"].strip().upper() == "GENERIC" or _name_starts_with(preset["name"], "Generic"):
             tier = 1
         else:
             tier = 2
