@@ -8,7 +8,7 @@ Das Plugin `u1_moonraker_agent.py` bindet den Snapmaker U1 per LAN an OrcaSlicer
 
 ## Voraussetzungen
 
-- **OrcaSlicer 2.5.0-beta** oder -alpha (getestet auf macOS, Apple Silicon)
+- **OrcaSlicer 2.5.0** (getestet mit Beta und RC auf macOS, Apple Silicon). Die Alpha geht auch, aber ohne automatisches Zuweisen der Filament-Profile.
 - Der U1 ist im selben Netz erreichbar. Test im Browser: `http://<U1-IP>:7125/server/info` muss eine JSON-Antwort zeigen.
 - Moonraker läuft ohne API-Key (Standard beim U1).
 
@@ -33,7 +33,9 @@ Das Plugin `u1_moonraker_agent.py` bindet den Snapmaker U1 per LAN an OrcaSlicer
 
 ## 4. Erste Verbindung
 
-- Tab **Gerät** öffnen. Fragt OrcaSlicer, ob das Plugin Threads starten darf, mit **Ja** bestätigen.
+- Beim Installieren fragt OrcaSlicer, ob das Plugin Threads starten und die gesliceten Projekte lesen darf: mit **Ja** bestätigen (in der Alpha kommt die Frage nach den Threads erst beim ersten Verbinden).
+- Den Zugriff auf das Netzwerk (den U1) beim ersten Verbinden ebenfalls erlauben. Die Rechte stehen danach im Plugins-Dialog und lassen sich dort ändern.
+- Tab **Gerät** öffnen.
 - Danach erscheinen Status, Temperaturen und Kamera. Der Tab **„U1“** zeigt die volle Druckeransicht.
 
 ## 5. Filamente

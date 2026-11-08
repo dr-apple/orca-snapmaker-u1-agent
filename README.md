@@ -11,7 +11,7 @@ Deutsche Anleitung: [README.de.md](README.de.md)
 
 ## Requirements
 
-- OrcaSlicer **2.5.0-beta** (2.5.0-alpha also works, but without automatic preset assignment). Tested on macOS (Apple Silicon).
+- OrcaSlicer **2.5.0** (tested with the beta and RC on macOS, Apple Silicon). 2.5.0-alpha also works, but without automatic preset assignment.
 - A U1 reachable on your network, with Moonraker on port 7125 and no API key (the U1 default). Tested with firmware 2.0.0 (paxx12).
 
 ## Install
@@ -29,11 +29,11 @@ Deutsche Anleitung: [README.de.md](README.de.md)
    - **Printer agent:** *Snapmaker U1 (Moonraker)*.
 3. Save the preset.
 
-Open the **Device** tab and allow the plugin to start threads when asked.
+When OrcaSlicer asks whether the plugin may start threads and read the sliced projects (at install; on the alpha, threads at the first connect) and reach the printer on the network, allow it. The grants are listed in the Plugins dialog, where you can change them. Then open the **Device** tab.
 
 ## Filaments
 
-- Press the **sync button** in the filament area. On the beta, each slot then gets its matching preset. The **Assign presets** button (*Profile zuweisen*) in the U1 tab does the same without re-syncing.
+- Press the **sync button** in the filament area. On 2.5.0 (beta and later), each slot then gets its matching preset. The **Assign presets** button (*Profile zuweisen*) in the U1 tab does the same without re-syncing.
 - A preset can only be assigned when it is enabled in OrcaSlicer's filament selection. Enable the presets of the filaments you use, e.g. *Snapmaker PLA Basic @U1*. Otherwise the closest enabled preset is used.
 - A slot is only reassigned to a preset of the type it already holds. If a filament preset has unsaved changes, OrcaSlicer asks first, as usual.
 

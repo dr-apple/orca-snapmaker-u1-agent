@@ -6,7 +6,7 @@
 # name = "Snapmaker U1 Agent"
 # description = "LAN printing for the Snapmaker U1 via Moonraker, with print options (timelapse, flow calibration, bed leveling), filament slot sync, printer status, camera and a U1 device tab."
 # author = "dr-apple"
-# version = "0.6.1"
+# version = "0.6.2"
 # ///
 """Printer agent for the Snapmaker U1 (OrcaSlicer 2.5 printer-agent API).
 
@@ -33,6 +33,7 @@ import socket
 import ssl
 import struct
 import sys
+import tempfile
 import threading
 import time
 import urllib.parse
@@ -48,7 +49,7 @@ pa = orca.printer_agent
 
 AGENT_ID = "u1_moonraker"
 AGENT_NAME = "Snapmaker U1 (Moonraker)"
-AGENT_VERSION = "0.6.1"
+AGENT_VERSION = "0.6.2"
 # model_id of the Snapmaker U1 in Orca's Snapmaker vendor profile
 MODEL_ID = "797581801"
 DEFAULT_PORT = 7125
@@ -705,6 +706,18 @@ def remote_filename(params):
     base = "".join(c if (c.isalnum() or c in " -_.+()") else "_" for c in base).strip() or "job"
     plate = int(params.plate_index or 1)
     return f"{base}_plate{plate}.gcode" if plate > 1 else f"{base}.gcode"
+
+
+def sliced_projects_dir():
+    """Where OrcaSlicer keeps the projects it hands to a printer agent.
+
+    Its temp root is the system temp folder, with a per-user orcaslicer_<uid> folder outside
+    Windows (per_user_temp_dir() in OrcaSlicer).
+    """
+    root = tempfile.gettempdir().rstrip("/\\")
+    if hasattr(os, "getuid"):
+        root = os.path.join(root, f"orcaslicer_{os.getuid()}")
+    return os.path.join(root, "orcaslicer_model")
 
 
 def read_plate_gcode(path, plate_index):
@@ -1631,7 +1644,14 @@ class U1Page(orca.pages.PagesPluginCapabilityBase):
 @orca.plugin
 class U1Plugin(orca.base):
     def register_capabilities(self):
-        # OrcaSlicer 2.5.0-alpha's request_permissions() only takes fs_read, so the threading
-        # permission is asked for on first use (the first connect) instead
+        # Ask once at install for threads and for reading the sliced projects. A job reads its
+        # 3MF on a plugin thread, where a missing grant fails the print instead of prompting, and
+        # each session slices into a new folder. The alpha's request_permissions() only takes
+        # fs_read; there the threading permission is asked for on the first connect.
+        projects = [sliced_projects_dir() + "/*"]
+        try:
+            orca.request_permissions(fs_read=projects, threading=True)
+        except TypeError:
+            orca.request_permissions(fs_read=projects)
         orca.register_capability(U1Agent)
         orca.register_capability(U1Page)
