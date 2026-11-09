@@ -19,7 +19,7 @@ Das Plugin `u1_moonraker_agent.py` bindet den Snapmaker U1 per LAN an OrcaSlicer
 ## 2. Plugin installieren
 
 1. Plugin holen, auf einem der zwei Wege:
-   - **Aus OrcaCloud (empfohlen):** [Snapmaker U1 Agent](https://cloud.orcaslicer.com/app/plugins/plugin-hub/3e39ee3b-3abe-44e3-9f7d-80722f12c0e2) im Plugin Hub abonnieren. OrcaSlicer installiert es und bietet Updates an.
+   - **Aus OrcaCloud (empfohlen):** [Snapmaker U1 Agent](https://cloud.orcaslicer.com/app/plugins/plugin-hub/3234badf-d674-4a39-b19b-55d5ec4a949b) im Plugin Hub abonnieren. OrcaSlicer installiert es und bietet Updates an.
    - **Als Datei:** **Plugins → Install local plugin** → `u1_moonraker_agent.py` auswählen. Nur einen der beiden Wege nutzen, sonst läuft der Agent doppelt.
 2. Im Plugins-Dialog das Plugin **„Snapmaker U1 Agent“** aktivieren, ebenso seine beiden Funktionen „Snapmaker U1 (Moonraker)“ und „U1“.
 3. OrcaSlicer komplett beenden (Cmd+Q) und neu starten.
