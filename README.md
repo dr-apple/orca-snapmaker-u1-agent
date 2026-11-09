@@ -17,7 +17,9 @@ Deutsche Anleitung: [README.de.md](README.de.md)
 ## Install
 
 1. **Preferences → Developer → Experimental Features:** enable *Use printer agents instead of print hosts*.
-2. **Plugins → Install local plugin:** pick `u1_moonraker_agent.py`.
+2. Get the plugin, either way:
+   - **From OrcaCloud (recommended):** subscribe to [Snapmaker U1 Agent](https://cloud.orcaslicer.com/app/plugins/plugin-hub/3e39ee3b-3abe-44e3-9f7d-80722f12c0e2) in the Plugin Hub. OrcaSlicer installs it and offers updates.
+   - **Local file:** **Plugins → Install local plugin**, pick `u1_moonraker_agent.py`. Use only one of the two, or the agent runs twice.
 3. In the Plugins dialog, enable *Snapmaker U1 Agent* and both of its capabilities, *Snapmaker U1 (Moonraker)* and *U1*.
 4. Restart OrcaSlicer.
 
