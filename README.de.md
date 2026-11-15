@@ -1,10 +1,16 @@
 # Snapmaker U1 Agent für OrcaSlicer – Installation und Einrichtung
 
+[English](README.md) · **Deutsch**
+
+![Snapmaker U1 Agent](docs/images/banner.svg)
+
 Das Plugin `u1_moonraker_agent.py` bindet den Snapmaker U1 per LAN an OrcaSlicer an. Damit gehen:
 
 - Senden und Drucken mit Zeitraffer, Flow-Kalibrierung, Bett-Nivellierung und Slot-Zuordnung
 - Druckerstatus, Kamera und Filament-Sync
 - ein eigener Tab „U1“ mit Kamera, Temperaturen, Steuerung und Filament-Slots
+
+![So funktioniert's: OrcaSlicer → Agent-Plugin → Moonraker → Snapmaker U1](docs/images/how-it-works.svg)
 
 ## Voraussetzungen
 
@@ -75,3 +81,7 @@ kopieren (vorhandene Datei ersetzen) und OrcaSlicer neu starten. Alternativ erne
 - **Logs:**
   - Plugin: `~/Library/Application Support/OrcaSlicer/log/python_*.log`, Zeilen beginnen mit `[u1_moonraker]`.
   - OrcaSlicer: `debug_*.log.0` im selben Ordner.
+
+## Lizenz
+
+MIT, siehe [LICENSE](LICENSE). Kein offizielles Projekt von Snapmaker oder OrcaSlicer.

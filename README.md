@@ -1,5 +1,9 @@
 # Snapmaker U1 printer agent for OrcaSlicer 2.5
 
+**English** · [Deutsch](README.de.md)
+
+![Snapmaker U1 Agent](docs/images/banner.svg)
+
 A Python printer-agent plugin that connects the **Snapmaker U1** to **OrcaSlicer 2.5** over LAN (Moonraker). It does what the built-in Snapmaker agent does not do yet:
 
 - **Print options:** timelapse, flow calibration, bed leveling, and the filament-to-slot mapping are sent to the printer. It uses the U1's own `server.files.start_local_print`, the same request Snapmaker Orca sends. See [OrcaSlicer#16836](https://github.com/OrcaSlicer/OrcaSlicer/issues/16836).
@@ -7,7 +11,7 @@ A Python printer-agent plugin that connects the **Snapmaker U1** to **OrcaSlicer
 - **Status and camera:** state, temperatures, progress and storage, plus the U1's cameras as snapshots.
 - **U1 tab:** a main-window tab with camera, job, the four toolheads, motion and filament slots.
 
-Deutsche Anleitung: [README.de.md](README.de.md)
+![How it works: OrcaSlicer → agent plugin → Moonraker → Snapmaker U1](docs/images/how-it-works.svg)
 
 ## Requirements
 
@@ -38,6 +42,21 @@ When OrcaSlicer asks whether the plugin may start threads and read the sliced pr
 - Press the **sync button** in the filament area. On 2.5.0 (beta and later), each slot then gets its matching preset. The **Assign presets** button (*Profile zuweisen*) in the U1 tab does the same without re-syncing.
 - A preset can only be assigned when it is enabled in OrcaSlicer's filament selection. Enable the presets of the filaments you use, e.g. *Snapmaker PLA Basic @U1*. Otherwise the closest enabled preset is used.
 - A slot is only reassigned to a preset of the type it already holds. If a filament preset has unsaved changes, OrcaSlicer asks first, as usual.
+
+## Quick check before you start
+
+Open `http://<U1-IP>:7125/server/info` in a browser. You should see JSON like:
+
+```json
+{"result": {"klippy_connected": true, "klippy_state": "ready", "moonraker_version": "…"}}
+```
+
+If not, fix the network first – the plugin talks to exactly this endpoint.
+
+## Troubleshooting
+
+- **Agent missing in the "Printer agent" list:** enable the plugin in the Plugins dialog and restart OrcaSlicer.
+- **"Storage must be inserted":** check that the preset has the agent *Snapmaker U1 (Moonraker)* saved. Remove older workaround files: `~/Library/Application Support/OrcaSlicer/printers/797581801.json` and `Snapmaker U1.json`.
 
 ## Known limits
 
